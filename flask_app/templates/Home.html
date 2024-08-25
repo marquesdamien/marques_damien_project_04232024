@@ -12,25 +12,26 @@
     <header>
         <h1>King of Games Network<h1>
         <div id="header_tabs">
-            <button class="tab_links" onclick="">Magic</button>
-            <button class="tab_links" onclick="">Yu-Gi-Oh</button>
-            <button class="tab_links" onclick="">Register / Login</button>
+            <a href="/magiclist"><button class="tab_links">Magic</button></a>
+            <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
+            <a href="/register_login"><button class="tab_links">Register / Login</button></a>
             <!--Add Jinja to show fourth button to view your decks if logged in?-->
         </div>
     </header>
-    <div id="image_links">
-        <div class="imagelink_text">
-            <a href="" class="image_links"><img class="link_images" src="../static/images/Yugioh-link-image.jpg" alt="Yugioh" width="500px" height="250px"></a>
-            <a href=""><p id="viewyugioh">View Yugioh Decks</p></a>
+    <div id="maincontent">
+        <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
+        <div id="image_links">
+            <div class="imagelink_text">
+                <a href="" class="image_links"><img class="link_images" src="../static/images/Yugioh-link-image.jpg" alt="Yugioh" width="500px" height="250px"></a>
+                <a href=""><p id="viewyugioh">View Yugioh Decks</p></a>
+            </div>
+            <div class="imagelink_text">
+                <a href="" class="image_links"><img class="link_images" src="../static/images/MTG-link.jpg" alt="Magic The Gathering" width="500px" height="250px"></a>
+                <a href=""><p id="viewmagic">View MTG Decks</p></a>
+            </div>
         </div>
-        <div class="imagelink_text">
-            <a href="" class="image_links"><img class="link_images" src="../static/images/MTG-link.jpg" alt="Magic The Gathering" width="500px" height="250px"></a>
-            <a href=""><p id="viewmagic">View MTG Decks</p></a>
-        </div>
+        <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
     </div>
-    <p>x</p><br/>
-    <p>x</p><br/>
-    <p>x</p><br/>
 
     <footer>
         <ul>

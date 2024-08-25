@@ -3,29 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../static/styles/createdeck.css">
+    <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+    <title>Create Deck</title>
 </head>
 <body>
     <header>
-        <h1>Welcome!</h1>
+        <h1>King of Games Network<h1>
         <div id="header_tabs">
-            <button class="tab_links" onclick="">About Me</button>
-            <button class="tab_links" onclick="">Work History</button>
-            <button class="tab_links" onclick="">References</button>
-            <button class="tab_links" onclick="">Projects</button>
+            <a href="/magiclist"><button class="tab_links">Magic</button></a>
+            <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
+            <a href="/register_login"><button class="tab_links">Register / Login</button></a>
+            <!--Add Jinja to show fourth button to view your decks if logged in?-->
         </div>
     </header>
-    <div>
-        <h2> Body Place holder </h2>
-        <a href=""><img src="../static/images/1517024828341.jfif" alt="About Me"></a>
+    <div id="createbody">
+        <div id="deckform">
+            <h2 id="h2"> Create Deck  </h2>
+            <form>
+                <div class="form">
+                    <label for="deck_name">Deck Name:</label>
+                    <input type="text" class="createform" name="Deck Name">
+                </div>
+                <div class="form">
+                    <label for="decktype">Deck Type:</label>
+                    <div>
+                        <input type="radio" class="createform" name="decktype" value="Yu-Gi-Oh">
+                        <label for="decktype">Yu-Gi-Oh</label>
+                        <input type="radio" name="decktype" value="Magic">
+                        <label for="decktype">Magic</label>
+                    </div>
+                </div>
+                <div class="form">
+                    <label for="cards_list" id="cards_list">Card List:</label>
+                    <textarea id="cards_list" name="cards_list" value="cards_list" rows="30" cols="40">
+
+                    </textarea>
+                </div>
+            </form>
+        </div>
+        <div id="deckrules">
+            <h3>Deck Building Rules</h3>
+            <div id="rulesdetails">
+                <div>
+                    </br>
+                    </br>
+                    <p>Deck size</p>
+                    <p>Side Deck Size</p>
+                    <p>Extra Deck Size</p>
+                    <p>#Cards with Same name</p>
+                </div>
+                <div id="magicrules">
+                    <p>Magic</p>
+                    <p>Commander / Standard </p>
+                    <p>99+Com / 60+</p>
+                    <p>15- / 15-</p>
+                    <p>N/A / N/A</p>
+                    <p>1* / 4*</p>
+                </div>
+                <div id="yugiohrules">
+                    <p>Yu-Gi-Oh</p>
+                    </br>
+                    <p>40-60</p>
+                    <p>15-</p>
+                    <p>15-</p>
+                    <p>3</p>
+                </div>
+            </div>
+        </br>
+            <p>* - Does not include Basic Lands</p>
+        </div>
     </div>
     <footer>
-        <p>Damien Marques</p>
         <ul>
-            <li>Phone Number: (513)254-4857</li>
+            <li>King of Games LLC</li>
             <li><a href="mailto:damienf.a.marques@gmail.com">Email me</a></li>
-            <li><a href="">Resume</a></li>
-            <li>Located in Cincinnati, OH</li>
+            <li><a href="">FAQ's</a></li>
+            <li>Located in Ohio</li>
         </ul>
     </footer>
 </body>
