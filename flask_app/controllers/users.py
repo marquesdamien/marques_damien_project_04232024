@@ -4,19 +4,13 @@ from flask_app.models import show, user
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('Home.html')
 
-#CREATE
 @app.post('/users/create')
 def create_user():
     if user.User.create_user(request.form):
         return redirect('/Shows_dash')
     return redirect('/')
-#READ
-
-#UPDATE
-
-#DELETE
 
 @app.post('/users/login')
 def login():

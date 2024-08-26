@@ -8,7 +8,7 @@ bcrypt = Bcrypt(app)
 
 
 class User:
-    db = "netflix_show_users"
+    db = "deckbuildersocials"
     def __init__( self , data ):
         self.id = data['id']
         self.first_name = data['first_name']
