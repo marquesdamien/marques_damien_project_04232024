@@ -72,6 +72,15 @@ h1 {
     justify-content: space-between;
 }
 .sideimages {
+    height: 200px;
     transform: rotate(-90deg);
-    position: relative;
+    position: sticky;
+    top: 250px;
+}
+.link_images {
+    width: 400px;
+}
+#returnhome {
+    text-decoration: none;
+    color: black;
 }

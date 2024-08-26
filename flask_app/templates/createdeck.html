@@ -10,12 +10,18 @@
 </head>
 <body>
     <header>
-        <a href="/"><h1>King of Games Network<h1></a>
+        <h1><a href="/" id="returnhome">King of Games Network</a><h1>
         <div id="header_tabs">
             <a href="/magiclist"><button class="tab_links">Magic</button></a>
             <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
-            <a href="/register_login"><button class="tab_links">Register / Login</button></a>
-            <!--Add Jinja to show fourth button to view your decks if logged in?-->
+            {% if logged_in %}
+                <a href="/logout"><button class="tab_links">Logout</button></a>
+            {% else %}
+                <a href="/login_register"><button class="tab_links">Login/Register</button></a>
+            {% endif %}
+            {% if logged_in %}
+            <a href="/yourdecks"><button class="tab_links">Your Decks</button></a>
+            {% endif %}
         </div>
     </header>
     <div id="createbody">

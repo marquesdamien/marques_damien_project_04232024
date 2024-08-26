@@ -30,10 +30,10 @@ class User:
             flash("Last Name must be at least 2 characters.")
             is_valid = False
         if len(data['password']) < 8:
-            flash('Your Password must be at least 8 characters long')
+            flash('Your Password must be at least 8 characters long.')
             is_valid = False
         if data['password'] != data['confirm_password']:
-            flash("Password and Confirm Password no not match.")
+            flash("Password and Confirm Password do not match.")
             is_valid = False
         if not EMAIL_REGEX.match(data['email']):
             flash("Please use a valid email address.")
@@ -46,11 +46,8 @@ class User:
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM users;"
-        # make sure to call the connectToMySQL function with the schema you are targeting.
         results = connectToMySQL(cls.db).query_db(query)
-        # Create an empty list to append our instances of friends
         users = []
-        # Iterate over the db results and create instances of friends with cls.
         for user in users:
             users.append(cls(user))
             print(results)
