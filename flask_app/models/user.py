@@ -10,14 +10,13 @@ bcrypt = Bcrypt(app)
 class User:
     db = "deckbuildersocials"
     def __init__( self , data ):
-        self.id = data['id']
+        self.user_id = data['user_id']
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
         self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
         self.password = data['password']
-        self.shows = []
+        self.decks = []
 
     @classmethod
     def validate_user_data(cls, data):
@@ -61,8 +60,8 @@ class User:
         user_data['password'] = bcrypt.generate_password_hash(user_data['password'])
         
         query = """
-        INSERT INTO users (first_name, last_name, email, created_at, updated_at, password) 
-        VALUES (%(first_name)s, %(last_name)s, %(email)s, NOW(), NOW(), %(password)s)
+        INSERT INTO users (first_name, last_name, email, created_at, password) 
+        VALUES (%(first_name)s, %(last_name)s, %(email)s, NOW(), %(password)s)
         ;"""
         user_id = connectToMySQL(cls.db).query_db(query, user_data)
         session['user_id'] = user_id
@@ -87,19 +86,19 @@ class User:
         this_user = cls.get_user_by_email(data['email'])
         if this_user:
             if bcrypt.check_password_hash(this_user.password, data['password']):
-                session['user_id'] = this_user.id
+                session['user_id'] = this_user.user_id
                 session['user_name'] = f'{this_user.first_name} {this_user.last_name}'
                 return True
         flash('Your login information was incorrect')
         return False
     
     @classmethod
-    def get_user_by_id(cls, id):
-        data = {'id' : id }
+    def get_user_by_id(cls, user_id):
+        data = {'user_id' : user_id }
         query = """
             SELECT *
             FROM users
-            WHERE id = %(id)s
+            WHERE user_id = %(user_id)s
             """
         result = connectToMySQL(cls.db).query_db(query, data)
         if result:

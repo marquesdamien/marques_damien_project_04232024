@@ -1,9 +1,10 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
+from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import deck, user, comment
 
 
-@app.get('/deck/new')
+@app.get('/createdeck')
 def add_deck_page():
     if "user_id" not in session:
         flash("You must be logged in to access this page")

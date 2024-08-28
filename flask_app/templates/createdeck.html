@@ -11,19 +11,19 @@
 <body>
     <header>
         <h1><a href="/" id="returnhome">King of Games Network</a><h1>
-        <div id="header_tabs">
-            <a href="/magiclist"><button class="tab_links">Magic</button></a>
-            <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
-            {% if logged_in %}
-                <a href="/logout"><button class="tab_links">Logout</button></a>
-            {% else %}
-                <a href="/login_register"><button class="tab_links">Login/Register</button></a>
-            {% endif %}
-            {% if logged_in %}
-            <a href="/yourdecks"><button class="tab_links">Your Decks</button></a>
-            <a href="/createdeck"><button class="tab_links">Create Deck</button></a>
-            {% endif %}
-        </div>
+            <div id="header_tabs">
+                <a href="/magiclist"><button class="tab_links">Magic</button></a>
+                <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
+                {% if session['user_id'] %}
+                    <a href="/logout"><button class="tab_links">Logout</button></a>
+                {% else %}
+                    <a href="/login_register"><button class="tab_links">Login/Register</button></a>
+                {% endif %}
+                {% if session['user_id'] %}
+                <a href="/yourdecks"><button class="tab_links">Your Decks</button></a>
+                <a href="/createdeck"><button class="tab_links">Create Deck</button></a>
+                {% endif %}
+            </div>
     </header>
     <div id="createbody">
         <div id="deckform">

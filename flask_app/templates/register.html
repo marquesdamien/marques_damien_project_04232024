@@ -14,12 +14,12 @@
         <div id="header_tabs">
             <a href="/magiclist"><button class="tab_links">Magic</button></a>
             <a href="/yugiohlist"><button class="tab_links">Yu-Gi-Oh</button></a>
-            {% if logged_in %}
+            {% if session['user_id'] %}
                 <a href="/logout"><button class="tab_links">Logout</button></a>
             {% else %}
                 <a href="/login_register"><button class="tab_links">Login/Register</button></a>
             {% endif %}
-            {% if logged_in %}
+            {% if session['user_id'] %}
             <a href="/yourdecks"><button class="tab_links">Your Decks</button></a>
             <a href="/createdeck"><button class="tab_links">Create Deck</button></a>
             {% endif %}
