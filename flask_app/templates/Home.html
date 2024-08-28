@@ -21,6 +21,7 @@
             {% endif %}
             {% if logged_in %}
             <a href="/yourdecks"><button class="tab_links">Your Decks</button></a>
+            <a href="/createdeck"><button class="tab_links">Create Deck</button></a>
             {% endif %}
         </div>
     </header>
@@ -28,12 +29,12 @@
         <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
         <div id="image_links">
             <div class="imagelink_text">
-                <a href="" class="image_links"><img class="link_images" src="../static/images/Yugioh-link-image.jpg" alt="Yugioh" width="500px" height="250px"></a>
-                <a href=""><p id="viewyugioh">View Yugioh Decks</p></a>
+                <a href="/yugiohlist" class="image_links"><img class="link_images" src="../static/images/Yugioh-link-image.jpg" alt="Yugioh" width="500px" height="250px"></a>
+                <a href="/yugiohlist"><p id="viewyugioh">View Yugioh Decks</p></a>
             </div>
             <div class="imagelink_text">
-                <a href="" class="image_links"><img class="link_images" src="../static/images/MTG-link.jpg" alt="Magic The Gathering" width="500px" height="250px"></a>
-                <a href=""><p id="viewmagic">View MTG Decks</p></a>
+                <a href="/magiclist" class="image_links"><img class="link_images" src="../static/images/MTG-link.jpg" alt="Magic The Gathering" width="500px" height="250px"></a>
+                <a href="/magiclist"><p id="viewmagic">View MTG Decks</p></a>
             </div>
         </div>
         <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
