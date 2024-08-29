@@ -74,3 +74,13 @@ def delete_deck(id):
         return redirect('/')
     deck.Deck.delete_deck(id)
     return redirect('/yourdecks')
+
+
+
+@app.route('/view')
+def test():
+    return render_template('viewdeck.html')
+
+@app.route('/edit')
+def test2():
+    return render_template('editdeck.html')
