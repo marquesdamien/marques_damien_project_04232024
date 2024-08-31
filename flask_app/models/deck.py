@@ -30,29 +30,29 @@ class Deck:
     
     @classmethod
     def get_all(cls):
-        query = """SELECT * FROM shows
-        JOIN users on shows.user_id = users.id;"""
+        query = """SELECT * FROM decks
+        JOIN users on decks.user_id = users.id;"""
         # make sure to call the connectToMySQL function with the schema you are targeting.
         results = connectToMySQL(cls.db).query_db(query)
         # Create an empty list to append our instances of friends
-        shows = []
+        decks = []
         # Iterate over the db results and create instances of friends with cls.
-        for show in results:
-            show_obj = Show(show)
+        for deck in results:
+            deck_obj = Deck(deck)
             user_obj = user.User({
-                "id" : show["users.id"],
-                "first_name" : show["first_name"],
-                "last_name" : show["last_name"],
-                "email" : show["email"],
-                "created_at" : show["users.created_at"],
-                "updated_at" : show["users.updated_at"],
-                "password" : show["password"] 
+                "id" : deck["users.id"],
+                "first_name" : deck["first_name"],
+                "last_name" : deck["last_name"],
+                "email" : deck["email"],
+                "created_at" : deck["users.created_at"],
+                "updated_at" : deck["users.updated_at"],
+                "password" : deck["password"] 
             })
-            show_obj.poster = user_obj
-            shows.append(show_obj)
+            deck_obj.poster = user_obj
+            decks.append(deck_obj)
             print(results)
-            print(shows)
-        return shows
+            print(decks)
+        return decks
     
     
 
