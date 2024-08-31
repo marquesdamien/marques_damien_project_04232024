@@ -15,7 +15,7 @@ def login_register():
 def create_user():
     if user.User.create_user(request.form):
         return redirect('/')
-    return redirect('/')
+    return redirect('/login_register')
 
 @app.post('/users/login')
 def login():
