@@ -20,12 +20,11 @@ class Deck:
 
     @classmethod
     def create_deck(cls, data):
-        if not cls.validate_show_data(data): return False
+        if not cls.validate_deck_data(data): return False
         query = """
         INSERT INTO decks (deck_name, network, release_date, user_comment, user_id) 
         VALUES (%(show_name)s, %(network)s, %(release_date)s, %(user_comment)s, %(user_id)s )
         ;"""
-        # data is a dictionary that will be passed into the save method from server.py
         return connectToMySQL(cls.db).query_db(query, data)
     
     @classmethod
@@ -40,7 +39,7 @@ class Deck:
         for deck in results:
             deck_obj = Deck(deck)
             user_obj = user.User({
-                "id" : deck["users.id"],
+                "user_id" : deck["users.user_id"],
                 "first_name" : deck["first_name"],
                 "last_name" : deck["last_name"],
                 "email" : deck["email"],
@@ -57,61 +56,53 @@ class Deck:
     
 
     @classmethod
-    def validate_show_data(cls, data):
+    def validate_deck_data(cls, data):
         is_valid = True # we assume this is true
-        if len(data['show_name']) < 3:
+        if len(data['deck_name']) < 3:
             flash("Title must be at least 3 characters.")
             is_valid = False
-        if len(data['network']) < 3:
-            flash("Network must be at least 3 characters.")
-            is_valid = False
-        if not data['release_date']:
-            flash('Release date is required')
-            is_valid = False
-        if len(data['user_comment']) < 3:
-            flash('Comments must be at least 3 characters long')
+        if not data['decktype']:
+            flash('Deck Type selection is required')
             is_valid = False
         return is_valid
     
     @classmethod
-    def get_one_by_show_id(cls, id):
+    def get_one_by_deck_id(cls, deck_id):
         data = {
-            "id" : id
+            "deck_id" : deck_id
         }
         query = """
-            SELECT * FROM shows
-            JOIN users ON shows.user_id = users.id
-            WHERE shows.id = %(id)s
+            SELECT * FROM decks
+            JOIN users ON decks.user_id = users.id
+            WHERE decks.id = %(id)s
             ;"""
         
         result = connectToMySQL(cls.db).query_db(query, data)
-        this_show = result[0]
-        show_obj = Show(this_show)
+        this_deck = result[0]
+        deck_obj = Deck(this_deck)
         user_obj = user.User({
-            "id" : this_show["users.id"],
-            "first_name" : this_show["first_name"],
-            "last_name" : this_show["last_name"],
-            "email" : this_show["email"],
-            "created_at" : this_show["users.created_at"],
-            "updated_at" : this_show["users.updated_at"],
-            "password" : this_show["password"] 
+            "user_id" : this_deck["users.user_id"],
+            "first_name" : this_deck["first_name"],
+            "last_name" : this_deck["last_name"],
+            "email" : this_deck["email"],
+            "created_at" : this_deck["users.created_at"],
+            "updated_at" : this_deck["users.updated_at"],
+            "password" : this_deck["password"] 
         })
 
-        show_obj.poster = user_obj
+        deck_obj.poster = user_obj
 
-        return show_obj
+        return deck_obj
     
     @classmethod
-    def update_show(cls, data):
-        if not cls.validate_show_data(data): 
+    def update_deck(cls, data):
+        if not cls.validate_deck_data(data): 
             return False
         query = """
-        UPDATE shows
+        UPDATE decks
         SET
-            show_name = %(show_name)s,
-            network = %(network)s,
-            release_date = %(release_date)s,
-            user_comment = %(user_comment)s,
+            deck_name = %(deck_name)s,
+            decktype = %(decktype)s,
             id = %(id)s
         WHERE id = %(id)s
         ;"""
@@ -121,13 +112,13 @@ class Deck:
         return True
     
     @classmethod
-    def delete_show(cls, id):
+    def delete_deck(cls, deck_id):
         data = {
-            "id" : id
+            "deck_id" : deck_id
         }
         query = """
-            DELETE FROM shows
-            WHERE id = %(id)s
+            DELETE FROM decks
+            WHERE deck_id = %(deck_id)s
         ;"""
         connectToMySQL(cls.db).query_db(query, data)
         return
