@@ -22,7 +22,7 @@ def create_deck():
     print("xxxxxxxxxxxxxxxxxxxxx")
     print(request.form)
     print(is_valid)
-    return redirect('/yourdecks')
+    return redirect('/createdeck')
 
 
 @app.get('/magiclist')

@@ -25,7 +25,11 @@ class Deck:
         INSERT INTO decks (deck_name, decktype, user_id) 
         VALUES (%(deck_name)s, %(decktype)s, %(user_id)s)
         ;"""
-        deck_id = connectToMySQL(cls.db).query_db(query, data)
+        try:
+            deck_id = connectToMySQL(cls.db).query_db(query, data)
+        except Exception as e:
+            flash(f"Error creating deck: {e}")
+            return False
 
         if deck_id:
             card_index = 0
@@ -38,7 +42,7 @@ class Deck:
                 cls.add_card_to_deck(card_data)
                 card_index += 1
             return cls.get_one_by_deck_id(deck_id)
-        return connectToMySQL(cls.db).query_db(query, data)
+        return None
     
     @classmethod
     def get_all(cls):
@@ -72,7 +76,7 @@ class Deck:
     def validate_deck_data(cls, data):
         is_valid = True # we assume this is true
         if len(data['deck_name']) < 3:
-            flash("Title must be at least 3 characters.")
+            flash("Deck Name must be at least 3 characters.")
             is_valid = False
         if not data['decktype']:
             flash('Deck Type selection is required')
@@ -176,7 +180,11 @@ class Deck:
     @classmethod
     def add_card_to_deck(cls, card_data):
         query = """
-        INSERT INTO cards (deck_id, card_name) 
-        VALUES (%(deck_id)s, %(card_name)s)
+        INSERT INTO cards (decks_id, card_name) 
+        VALUES (%(decks_id)s, %(card_name)s)
         ;"""
-        return connectToMySQL(cls.db).query_db(query, card_data)
+        try:
+            return connectToMySQL(cls.db).query_db(query, card_data)
+        except Exception as e:
+            flash(f"Error adding card: {e}")
+            return None

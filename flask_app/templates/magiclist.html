@@ -30,71 +30,25 @@
             <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
             <div id="magic_decks_list">
                 <h2> Magic list </h2>
+                {% for deck in decks: %}
+                    {% if deck.decktype == 0 %}
                 <div class="decks">
                     <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
+                        <a>Deck Name: {{ deck.deck_name }}</a>
+                        <p>Deck Type: Magic</p>
+                        <p>Created at: {{ deck.created_at }}</p>
+                        <p>Created By: {{ deck.poster.first_name }}</p>
                     </div>
                     <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
+                        <p><a href="/deck/view/{{ deck.deck_id }}">View Deck</a></p>
+                        {%  if user.user_id == deck.user_id %}
+                        <p><a href="/deck/edit/{{ deck.deck_id }}">Edit</a></p>
+                        <p><a href="/deck/delete/{{ deck.deck_id }}">Delete</a></p>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
+                    {% endif %}
+                {% endfor %}
             </div>
             <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
         </div>

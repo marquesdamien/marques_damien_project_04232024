@@ -9,6 +9,6 @@ class Card:
     db = "deckbuildersocials"
     def __init__( self , data ):
         self.cards_id = data['cards_id']
-        self.deck_id = data['deck_id']
+        self.decks_id = data['decks_id']
         self.card_name = data ['card_name']
 
