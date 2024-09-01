@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`users` (
 CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`decks` (
   `deck_id` INT NOT NULL AUTO_INCREMENT,
   `deck_name` VARCHAR(45) NOT NULL,
-  `created_at` DATETIME NOT NULL,
-  `updated_at` DATETIME NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT NOW(),
+  `updated_at` DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   `user_id` INT NOT NULL,
   `decktype` TINYINT NOT NULL,
   PRIMARY KEY (`deck_id`, `user_id`),

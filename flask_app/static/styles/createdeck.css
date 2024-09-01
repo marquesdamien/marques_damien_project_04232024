@@ -101,3 +101,20 @@ form {
     text-decoration: none;
     color: black;
 }
+#card-container {
+    display: flex;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center;
+    gap: 10px; /* Optional: adds space between elements */
+}
+
+/* Ensure each input group behaves as a block element */
+.card-input-group {
+    display: flex;
+    flex-direction: row; /* Allows the remove button to be beside the input */
+    align-items: center; /* Aligns input and button vertically */
+}
+
+.card-input-group input {
+    margin-right: 10px; /* Space between input and button */
+}

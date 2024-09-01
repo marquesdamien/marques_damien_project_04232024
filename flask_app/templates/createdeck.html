@@ -25,30 +25,91 @@
                 {% endif %}
             </div>
     </header>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div id="popup">
+            {% for message in messages %}
+                <p> {{ message }}</p>
+            {% endfor %}
+            <button onclick="popup.remove()">Okay</button>
+        </div>
+        {% endif %}
+    {% endwith %}
+
     <div id="createbody">
         <div id="deckform">
             <h2 id="h2"> Create Deck  </h2>
-            <form>
+            <form action="/deck/create" method="POST">
                 <div class="form">
                     <label for="deck_name">Deck Name:</label>
-                    <input type="text" class="createform" name="Deck Name">
+                    <input type="text" class="createform" name="deck_name">
                 </div>
                 <div class="form">
                     <label for="decktype">Deck Type:</label>
                     <div>
-                        <input type="radio" class="createform" name="decktype" value="Yu-Gi-Oh">
-                        <label for="decktype">Yu-Gi-Oh</label>
-                        <input type="radio" name="decktype" value="Magic">
-                        <label for="decktype">Magic</label>
+                        <input type="radio" id="yugioh" class="createform" name="decktype" value="1">
+                        <label for="yugioh">Yu-Gi-Oh</label>
+                        <input type="radio" id="magic" name="decktype" value="0">
+                        <label for="magic">Magic</label>
                     </div>
                 </div>
-                <div class="form">
-                    <label for="cards_list" id="cards_list">Card List:</label>
-                    <textarea id="cards_list" name="cards_list" value="cards_list" rows="30" cols="40">
-
-                    </textarea>
+                <div class="form" id="card-container">
+                    <div class="card-input-group">
+                        <label for="cards_list" id="cards_list">Cards:</label>
+                        <input type="text" name="cards[0]" placeholder="Card Name">
+                    </div>
                 </div>
+                <input type="hidden" name="user_id" value="{{ session.user_id }}">
+                <div class="form">
+                    <button type="button" onclick="addcardInput()">Add A Card</button>
+                </div>
+                <button type="submit">Create Deck</button>
             </form>
+            <script>
+                function addcardInput() {
+                    var container = document.getElementById('card-container');
+                    var inputCount = container.children.length;
+                
+                    // Create a new div to group the card input and remove button
+                    var newInputGroup = document.createElement('div');
+                    newInputGroup.className = 'card-input-group';
+                
+                    // Create the new input field
+                    var newInput = document.createElement('input');
+                    newInput.type = 'text';
+                    newInput.name = `cards[${inputCount}]`;
+                    newInput.placeholder = 'Card Name';
+                
+                    // Create the remove button
+                    var removeButton = document.createElement('button');
+                    removeButton.type = 'button';
+                    removeButton.innerHTML = 'Remove';
+                    removeButton.onclick = function() {
+                        removeCardInput(this);
+                    };
+                
+                    // Add the new input field and remove button to the input group
+                    newInputGroup.appendChild(newInput);
+                    newInputGroup.appendChild(removeButton);
+                
+                    // Add the new input group to the container
+                    container.appendChild(newInputGroup);
+                }
+                
+                function removeCardInput(button) {
+                    var cardInputGroup = button.parentElement;
+                    var container = document.getElementById('card-container');
+                    container.removeChild(cardInputGroup);
+                    
+                    // Update the names of all card inputs after removal to maintain order
+                    var inputGroups = container.getElementsByClassName('card-input-group');
+                    for (var i = 0; i < inputGroups.length; i++) {
+                        var input = inputGroups[i].getElementsByTagName('input')[0];
+                        input.name = `cards[${i}]`;
+                    }
+                }
+            </script>
         </div>
         <div id="deckrules">
             <h3>Deck Building Rules</h3>

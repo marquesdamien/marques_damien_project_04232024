@@ -21,7 +21,7 @@ def create_user():
 def login():
     if user.User.login(request.form):
         return redirect('/')
-    return redirect('/')
+    return redirect('/login_register')
 
 @app.route('/logout')
 def logout():

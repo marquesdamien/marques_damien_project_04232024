@@ -40,13 +40,16 @@ def yourdecks():
         return redirect('/')
     return render_template('yourdecks.html')
 
-@app.get('/deck/view/<deck_id>')
+@app.get('/deck/view/<int:deck_id>')
 def view_deck(deck_id):
-    deck_viewed, cards_viewed = deck.Deck.get_one_by_deck_id(deck_id)
+    if "user_id" not in session:
+        flash("You must be logged in to access this page")
+    deck_viewed = deck.Deck.get_one_by_deck_id(deck_id)
+    cards_viewed = deck_viewed.cards
     return render_template('viewdeck.html', deck = deck_viewed, cards = cards_viewed)
 
-@app.get('/deck/edit/<deck_id>')
-def edit_deck(deck_id):
+@app.get('/deck/edit/<int:deck_id>')
+def update_deck(deck_id):
     if "user_id" not in session:
         flash("You must be logged in to access this page")
         return redirect('/')

@@ -25,26 +25,118 @@
                 {% endif %}
             </div>
     </header>
-    <div>
-        <div id="maincontent">
-            <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
-            <div id="magic_decks_list">
-                <h2> Magic list </h2>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div id="popup">
+            {% for message in messages %}
+                <p> {{ message }}</p>
+            {% endfor %}
+            <button onclick="popup.remove()">Okay</button>
+        </div>
+        {% endif %}
+    {% endwith %}
+    
+    <div id="createbody">
+        <div id="deckform">
+            <h2 id="h2"> Edit Deck: {{ deck.deck_name }}  </h2>
+            <form action="/deck/edit" method="POST">
+                <input type="hidden" name="deck_id" value="{{ deck.deck_id }}">
+                <div class="form">
+                    <label for="deck_name">Deck Name:</label>
+                    <input type="text" class="createform" id="deck_name" name="deck_name" value="{{ deck.deck_name }}" placeholder="Deck Name">
+                </div>
+                <div class="form">
+                    <label for="decktype">Deck Type:</label>
+                    <div>
+                        <input type="radio" id="yugioh" class="createform" name="decktype" value="1" {% if deck.decktype = "1" %}checked{% endif %}>
+                        <label for="yugioh">Yu-Gi-Oh</label>
+                        <input type="radio" id="magic" name="decktype" value="0" {% if deck.decktype = "0" %}checked{% endif %}>
+                        <label for="magic">Magic</label>
                     </div>
                 </div>
+                <div class="form" id="card-container">
+                    {% for card in cards %}
+                    <div class="card-input-group">
+                        <label for="cards_list" id="cards_list">Cards:</label>
+                        <input type="text" name="cards[{{ loop.index0 }}]" value="{{ card.card_name }}" placeholder="Card Name">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="form">
+                    <button type="button" onclick="addcardInput()">Add A Card</button>
+                </div>
+                <button type="submit">Update Deck</button>
+            </form>
+            <script>
+                function addCardInput() {
+                    var container = document.getElementById('card-container');
+                    var inputCount = container.children.length;
+            
+                    var newInputGroup = document.createElement('div');
+                    newInputGroup.className = 'card-input-group';
+            
+                    var newInput = document.createElement('input');
+                    newInput.type = 'text';
+                    newInput.name = `cards[${inputCount}]`;
+                    newInput.placeholder = 'Card Name';
+            
+                    var removeButton = document.createElement('button');
+                    removeButton.type = 'button';
+                    removeButton.innerHTML = 'Remove';
+                    removeButton.onclick = function() {
+                        removeCardInput(this);
+                    };
+            
+                    newInputGroup.appendChild(newInput);
+                    newInputGroup.appendChild(removeButton);
+            
+                    container.appendChild(newInputGroup);
+                }
+            
+                function removeCardInput(button) {
+                    var cardInputGroup = button.parentElement;
+                    var container = document.getElementById('card-container');
+                    container.removeChild(cardInputGroup);
+                    
+                    var inputGroups = container.getElementsByClassName('card-input-group');
+                    for (var i = 0; i < inputGroups.length; i++) {
+                        var input = inputGroups[i].getElementsByTagName('input')[0];
+                        input.name = `cards[${i}]`;
+                    }
+                }
+                </script>
+        </div>
+        <div id="deckrules">
+            <h3>Deck Building Rules</h3>
+            <div id="rulesdetails">
+                <div>
+                    </br>
+                    </br>
+                    <p>Deck size</p>
+                    <p>Side Deck Size</p>
+                    <p>Extra Deck Size</p>
+                    <p>#Cards with Same name</p>
+                </div>
+                <div id="magicrules">
+                    <p>Magic</p>
+                    <p>Commander / Standard </p>
+                    <p>99+Com / 60+</p>
+                    <p>15- / 15-</p>
+                    <p>N/A / N/A</p>
+                    <p>1* / 4*</p>
+                </div>
+                <div id="yugiohrules">
+                    <p>Yu-Gi-Oh</p>
+                    </br>
+                    <p>40-60</p>
+                    <p>15-</p>
+                    <p>15-</p>
+                    <p>3</p>
+                </div>
             </div>
-            <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
+        </br>
+            <p>* - Does not include Basic Lands</p>
         </div>
     </div>
     <footer>

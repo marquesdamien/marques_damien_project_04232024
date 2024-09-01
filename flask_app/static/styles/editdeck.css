@@ -79,3 +79,19 @@ h2 {
     justify-content: space-around;
     height: 100vh;
 }
+#card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-input-group input {
+    flex: 1;
+    margin-right: 10px;
+}
