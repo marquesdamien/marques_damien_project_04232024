@@ -49,11 +49,10 @@ class Deck:
     def get_all(cls):
         query = """SELECT * FROM decks
         JOIN users on decks.user_id = users.id;"""
-        # make sure to call the connectToMySQL function with the schema you are targeting.
+
         results = connectToMySQL(cls.db).query_db(query)
-        # Create an empty list to append our instances of friends
+
         decks = []
-        # Iterate over the db results and create instances of friends with cls.
         for deck in results:
             deck_obj = Deck(deck)
             user_obj = user.User({
@@ -152,7 +151,7 @@ class Deck:
     
     @classmethod
     def validate_deck_data(cls, data):
-        is_valid = True # we assume this is true
+        is_valid = True 
         if len(data['deck_name']) < 3:
             flash("Deck Name must be at least 3 characters.")
             is_valid = False
@@ -203,7 +202,6 @@ class Deck:
         if not cls.validate_deck_data(data):
             return False
 
-        # Update the deck details
         query = """
         UPDATE decks
         SET deck_name = %(deck_name)s, decktype = %(decktype)s
@@ -211,10 +209,8 @@ class Deck:
         ;"""
         connectToMySQL(cls.db).query_db(query, data)
         
-        # Clear existing cards for this deck
         cls.delete_all_cards_for_deck(data['deck_id'])
 
-        # Insert the new set of cards
         card_index = 0
         while f'cards[{card_index}]' in data:
             card_name = data[f'cards[{card_index}]']
@@ -223,13 +219,11 @@ class Deck:
                 "card_name": card_name,
                 "deck_user_id": data['user_id']
             }
-            print(f"Adding card: {card_data}")  # Debugging output
+
             cls.add_card_to_deck(card_data)
             card_index += 1
 
-        # Fetch the deck again to ensure cards were inserted
         updated_deck = cls.get_one_by_deck_id(data['deck_id'])
-        print(f"Updated deck: {updated_deck.deck_name}, Cards: {[card.card_name for card in updated_deck.cards]}")
 
         return updated_deck
 
@@ -241,10 +235,7 @@ class Deck:
     
     @classmethod
     def delete_deck(cls, deck_id):
-    # First, delete all cards associated with this deck
         cls.delete_all_cards_for_deck(deck_id)
-    
-    # Then, delete the deck itself
         query = """
         DELETE FROM decks
         WHERE deck_id = %(deck_id)s

@@ -50,19 +50,14 @@ def view_deck(deck_id):
         flash("You must be logged in to access this page")
         return redirect('/')
     try:
-        # Fetch the deck by its ID
         deck_viewed = deck.Deck.get_one_by_deck_id(deck_id)
-        
-        # Handle case where deck is not found
         if deck_viewed is None:
             flash("Deck not found")
             return redirect('/yourdecks')
         
-        cards_viewed = deck_viewed.cards
         return render_template('viewdeck.html', deck=deck_viewed)
     
     except Exception as e:
-        # Log the exception if needed
         print(f"Error: {e}")
         flash("An error occurred while retrieving the deck")
         return redirect('/yourdecks')
@@ -84,7 +79,6 @@ def submit_edits():
         flash("You must be logged in to access this page")
         return redirect('/')
 
-    # Collect form data
     data = {
         'deck_id': request.form['deck_id'],
         'deck_name': request.form['deck_name'],
@@ -92,7 +86,6 @@ def submit_edits():
         'user_id': request.form['user_id']
     }
 
-    # Collect card data
     cards_data = []
     card_index = 0
     while f'cards[{card_index}]' in request.form:
@@ -104,22 +97,13 @@ def submit_edits():
         cards_data.append(card_data)
         card_index += 1
 
-    print(f"Deck ID: {data['deck_id']}")
-    print(f"Card data: {cards_data}")
-
     try:
-        # Remove existing cards
-        print("Removing existing cards")
         deck.Deck.remove_cards_by_deck_id(data['deck_id'])
 
-        # Update deck details
-        print("Updating deck")
         updated_deck = deck.Deck.update_deck(data)
         
         if updated_deck:
-            # Add new cards
             for card_data in cards_data:
-                print(f"Adding card: {card_data}")
                 deck.Deck.add_card_to_deck(card_data)
 
             return redirect('/yourdecks')
@@ -155,11 +139,9 @@ def remove_card():
     data = request.get_json()
     card_id = data.get('card_id')
 
-    # Ensure card_id is provided
     if not card_id:
         return jsonify({"status": "error", "message": "Card ID is required"}), 400
 
-    # Call method to remove card
     success = deck.Deck.remove_card_by_id(card_id)
     
     if success:

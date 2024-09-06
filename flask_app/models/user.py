@@ -21,7 +21,7 @@ class User:
     @classmethod
     def validate_user_data(cls, data):
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-        is_valid = True # we assume this is true
+        is_valid = True 
         if len(data['first_name']) < 2:
             flash("First Name must be at least 2 characters.")
             is_valid = False
