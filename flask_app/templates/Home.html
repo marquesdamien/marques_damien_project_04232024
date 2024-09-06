@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles/home.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
     <title>Deck Social Media</title>
@@ -26,18 +26,18 @@
         </div>
     </header>
     <div id="maincontent">
-        <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
+        <img class="sideimages" src="{{ url_for('static', filename='images/MTG-symbols.jpg') }}" alt="MTG-symbols" width="500px">
         <div id="image_links">
             <div class="imagelink_text">
-                <a href="/yugiohlist" class="image_links"><img class="link_images" src="../static/images/Yugioh-link-image.jpg" alt="Yugioh" width="500px" height="250px"></a>
+                <a href="/yugiohlist" class="image_links"><img class="link_images" src="{{ url_for('static', filename='images/Yugioh-link-image.jpg') }}" alt="Yugioh" width="500px" height="250px"></a>
                 <a href="/yugiohlist"><p id="viewyugioh">View Yugioh Decks</p></a>
             </div>
             <div class="imagelink_text">
-                <a href="/magiclist" class="image_links"><img class="link_images" src="../static/images/MTG-link.jpg" alt="Magic The Gathering" width="500px" height="250px"></a>
+                <a href="/magiclist" class="image_links"><img class="link_images" src="{{ url_for('static', filename='images/MTG-link.jpg') }}" alt="Magic The Gathering" width="500px" height="250px"></a>
                 <a href="/magiclist"><p id="viewmagic">View MTG Decks</p></a>
             </div>
         </div>
-        <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
+        <img class="sideimages" src="{{ url_for('static', filename='images/yugioh-card-types.png') }}" alt="yugioh-card-types" width="500px">
     </div>
 
     <footer>

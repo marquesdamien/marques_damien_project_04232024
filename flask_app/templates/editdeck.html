@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles/editdeck.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/editdeck.css') }}">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
     <title>Edit Deck</title>
@@ -49,60 +49,82 @@
                 <div class="form">
                     <label for="decktype">Deck Type:</label>
                     <div>
-                        <input type="radio" id="yugioh" class="createform" name="decktype" value="1" {% if deck.decktype = "1" %}checked{% endif %}>
+                        <input type="radio" id="yugioh" class="createform" name="decktype" value="1" {% if deck.decktype == 1 %}checked{% endif %}>
                         <label for="yugioh">Yu-Gi-Oh</label>
-                        <input type="radio" id="magic" name="decktype" value="0" {% if deck.decktype = "0" %}checked{% endif %}>
+                        <input type="radio" id="magic" name="decktype" value="0" {% if deck.decktype == 0 %}checked{% endif %}>
                         <label for="magic">Magic</label>
                     </div>
                 </div>
-                <div class="form" id="card-container">
+                <div id="card-container">
                     {% for card in cards %}
                     <div class="card-input-group">
-                        <label for="cards_list" id="cards_list">Cards:</label>
                         <input type="text" name="cards[{{ loop.index0 }}]" value="{{ card.card_name }}" placeholder="Card Name">
+                        <button type="button" onclick="removeCardInput(this, '{{ card.cards_id }}', '{{ loop.index0 }}')">Remove</button>
+                        <input type="hidden" name="card_ids[{{ loop.index0 }}]" value="{{ card.cards_id }}">
                     </div>
                     {% endfor %}
                 </div>
+                <input type="hidden" name="user_id" value="{{ session.user_id }}">
                 <div class="form">
-                    <button type="button" onclick="addcardInput()">Add A Card</button>
+                    <button type="button" onclick="addCardInput()">Add A Card</button>
                 </div>
                 <button type="submit">Update Deck</button>
             </form>
             <script>
-                function addCardInput() {
+                function addCardInput(cardId = null, cardName = '') {
                     var container = document.getElementById('card-container');
                     var inputCount = container.children.length;
-            
+                
                     var newInputGroup = document.createElement('div');
                     newInputGroup.className = 'card-input-group';
-            
+                    newInputGroup.id = 'card-group-' + inputCount;
+                
                     var newInput = document.createElement('input');
                     newInput.type = 'text';
                     newInput.name = `cards[${inputCount}]`;
+                    newInput.value = cardName; // Pre-fill with existing card name if provided
                     newInput.placeholder = 'Card Name';
-            
+                
                     var removeButton = document.createElement('button');
                     removeButton.type = 'button';
                     removeButton.innerHTML = 'Remove';
                     removeButton.onclick = function() {
-                        removeCardInput(this);
+                        removeCardInput(cardId, inputCount);
                     };
-            
+                
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `card_ids[${inputCount}]`;
+                    hiddenInput.value = cardId || ''; // Leave empty for new cards
+                
                     newInputGroup.appendChild(newInput);
                     newInputGroup.appendChild(removeButton);
-            
+                    newInputGroup.appendChild(hiddenInput);
+                
                     container.appendChild(newInputGroup);
                 }
-            
-                function removeCardInput(button) {
-                    var cardInputGroup = button.parentElement;
-                    var container = document.getElementById('card-container');
-                    container.removeChild(cardInputGroup);
-                    
-                    var inputGroups = container.getElementsByClassName('card-input-group');
-                    for (var i = 0; i < inputGroups.length; i++) {
-                        var input = inputGroups[i].getElementsByTagName('input')[0];
-                        input.name = `cards[${i}]`;
+                
+                function removeCardInput(button, cardId, index) {
+                    if (confirm("Are you sure you want to remove this card?")) {
+                        // Remove the card from the UI
+                        var cardInputGroup = button.parentElement;
+                        var container = document.getElementById('card-container');
+                        container.removeChild(cardInputGroup);
+
+                        // Add to the form to track removal
+                        var removedCardInput = document.createElement('input');
+                        removedCardInput.type = 'hidden';
+                        removedCardInput.name = `removed_cards[${index}]`;  // Track removed cards
+                        removedCardInput.value = cardId;  // Card ID to be removed
+
+                        container.appendChild(removedCardInput);
+
+                        // Adjust indices
+                        var inputGroups = container.getElementsByClassName('card-input-group');
+                        for (var i = 0; i < inputGroups.length; i++) {
+                            var input = inputGroups[i].getElementsByTagName('input')[0];
+                            input.name = `cards[${i}]`;
+                        }
                     }
                 }
                 </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles/yugiohdecks.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/yugiohdecks.css') }}">
     <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
     <title>Yu-Gi-Oh Decks</title>
@@ -27,76 +27,34 @@
     </header>
     <div>
         <div id="maincontent">
-            <img class="sideimages" src="..//static/images/MTG-symbols.jpg" alt="MTG-symbols" width="500px">
+            <img class="sideimages" src="{{ url_for('static', filename='images/MTG-symbols.jpg') }}" alt="MTG-symbols" width="500px">
             <div id="magic_decks_list">
                 <h2> Yu-Gi-Oh list </h2>
+                {%  for deck in decks: %}
                 <div class="decks">
                     <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
+                        <p>Name:  <a href="/deck/view/{{ deck.deck_id }}">{{ deck.deck_name }}</a></p>
+                        <p>
+                            {% if deck.decktype == 0 %}
+                            Magic
+                            {% else %}
+                            Yu-Gi-Oh
+                            {% endif %}
+                        </p>
+                        <p>Created: {{ deck.created_at }}</p>
+                        <p>Creator: {{ deck.poster.first_name }}</p>
                     </div>
                     <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
+                        <a href="/deck/view/{{ deck.deck_id }}">View Card List</a>
+                        {% if deck.user_id == session['user_id'] %}
+                        <a href="/deck/edit/{{ deck.deck_id }}">Edit</a>
+                        <a href="/deck/delete/{{ deck.deck_id }}">Delete</a>
+                        {% endif %}
                     </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
-                <div class="decks">
-                    <div class="deck_info">
-                        <a>Deck Name:</a>
-                        <p>Deck Type</p>
-                        <p>Created at:</p>
-                        <p>Created By:</p>
-                    </div>
-                    <div class="deck_links">
-                        <p><a href="">View Card List</a></p>
-                        <p><a href="">If sessID=deckcreator Edit</a></p>
-                        <p><a href="">If sessID=deckcreator Delete</a></p>
-                    </div>
-                </div>
+                </div> 
+                {% endfor %}
             </div>
-            <img class="sideimages" src="..//static/images/yugioh-card-types.png" alt="yugioh-card-types" width="500px">
+            <img class="sideimages" src="{{ url_for('static', filename='images/yugioh-card-types.png') }}" alt="yugioh-card-types" width="500px">
         </div>
     </div>
     <footer>

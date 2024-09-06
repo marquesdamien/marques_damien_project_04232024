@@ -12,7 +12,7 @@ DROP SCHEMA IF EXISTS `deckbuildersocials` ;
 -- -----------------------------------------------------
 -- Schema deckbuildersocials
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `deckbuildersocials` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `deckbuildersocials` DEFAULT CHARACTER SET utf8mb3 ;
 USE `deckbuildersocials` ;
 
 -- -----------------------------------------------------
@@ -26,7 +26,9 @@ CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`users` (
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `password` VARCHAR(355) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC) VISIBLE);
+  UNIQUE INDEX `id_UNIQUE` (`user_id` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -35,64 +37,38 @@ CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`users` (
 CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`decks` (
   `deck_id` INT NOT NULL AUTO_INCREMENT,
   `deck_name` VARCHAR(45) NOT NULL,
-  `created_at` DATETIME NOT NULL DEFAULT NOW(),
-  `updated_at` DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
   `decktype` TINYINT NOT NULL,
-  PRIMARY KEY (`deck_id`, `user_id`),
+  PRIMARY KEY (`deck_id`),
   UNIQUE INDEX `id_UNIQUE` (`deck_id` ASC) VISIBLE,
   INDEX `fk_decks_user_idx` (`user_id` ASC) VISIBLE,
+  INDEX `idx_deck_user` (`deck_id` ASC, `user_id` ASC) VISIBLE,
   CONSTRAINT `fk_decks_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `deckbuildersocials`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `deckbuildersocials`.`userbookcomments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`userbookcomments` (
-  `comment_id` INT NOT NULL,
-  `decks_id` INT NOT NULL,
-  `decks_user_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `comment` TEXT(80) NOT NULL,
-  PRIMARY KEY (`comment_id`, `decks_id`, `decks_user_id`, `user_id`),
-  UNIQUE INDEX `id_UNIQUE` (`comment_id` ASC) VISIBLE,
-  INDEX `fk_userbookcomments_decks1_idx` (`decks_id` ASC, `decks_user_id` ASC) VISIBLE,
-  INDEX `fk_userbookcomments_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_userbookcomments_decks1`
-    FOREIGN KEY (`decks_id` , `decks_user_id`)
-    REFERENCES `deckbuildersocials`.`decks` (`deck_id` , `user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_userbookcomments_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `deckbuildersocials`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `deckbuildersocials`.`users` (`user_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `deckbuildersocials`.`cards`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `deckbuildersocials`.`cards` (
-  `cards_id` INT NOT NULL AUTO_INCREMENT,
+  `cards_id` INT(11) NOT NULL AUTO_INCREMENT,
   `card_name` VARCHAR(255) NOT NULL,
-  `decks_id` INT NOT NULL,
-  `decks_user_id` INT NOT NULL,
-  PRIMARY KEY (`cards_id`, `decks_id`, `decks_user_id`),
+  `deck_id` INT(11) NOT NULL,
+  `deck_user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`cards_id`),
   UNIQUE INDEX `idcards_UNIQUE` (`cards_id` ASC) VISIBLE,
-  INDEX `fk_cards_decks1_idx` (`decks_id` ASC, `decks_user_id` ASC) VISIBLE,
+  INDEX `fk_cards_decks1_idx` (`deck_id` ASC, `deck_user_id` ASC) VISIBLE,
   CONSTRAINT `fk_cards_decks1`
-    FOREIGN KEY (`decks_id` , `decks_user_id`)
-    REFERENCES `deckbuildersocials`.`decks` (`deck_id` , `user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    FOREIGN KEY (`deck_id` , `deck_user_id`)
+    REFERENCES `deckbuildersocials`.`decks` (`deck_id` , `user_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

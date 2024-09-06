@@ -59,16 +59,16 @@ h1 {
 .decks {
     border: 1px solid black;
     background-color: beige;
-    padding: 5px;
+    padding: 10px;
     width: 600px;
 }
 .deck_info {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .deck_links {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 h2 {
     text-align: center;
@@ -78,4 +78,10 @@ h2 {
     flex-direction: column;
     justify-content: space-around;
     height: 100vh;
+}
+.cardlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
 }
